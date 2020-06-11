@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    // 例1： 1 7 宏
+    //       6 8 微
+    //       2 4 宏
+    //       3 5 微
+    //       9 11 宏
+    //       10 12 微
+
+    // console.log('1');
+    // setTimeout(function () {
+    //     console.log('2');
+    //     Promise.resolve().then(() => {
+    //         console.log('3');
+    //     })
+    //     new Promise(function (resolve) {
+    //         console.log('4');
+    //         resolve();
+    //     }).then(function () {
+    //         console.log('5')
+    //     })
+    // })
+    // Promise.resolve().then(() => {
+    //     console.log('6');
+    // })
+    // new Promise(function (resolve) {
+    //     console.log('7');
+    //     resolve();
+    // }).then(function () {
+    //     console.log('8')
+    // })
+    // setTimeout(function () {
+    //     console.log('9');
+    //     Promise.resolve().then(() => {
+    //         console.log('10');
+    //     })
+    //     new Promise(function (resolve) {
+    //         console.log('11');
+    //         resolve();
+    //     }).then(function () {
+    //         console.log('12')
+    //     })
+    // })
+
+    // 例2
+    // async function async1() {
+    //     console.log('async1 start');
+    //     await async2();
+    //     console.log('async1 end');
+    // }
+    // async function async2() {
+    //     console.log('async2');
+    // }
+    // console.log('script start');
+    // setTimeout(function() {
+    //     console.log('setTimeout');
+    // }, 0);
+    // async1();
+    // new Promise(function (resolve) {
+    //     console.log('promise1');
+    //     resolve();
+    // }).then(function() {
+    //     console.log('promise2');
+    // })
+    // console.log('script end');
+    // 结果：
+    // script start
+    // async1 start
+    // async2
+    // promise1
+    // script end
+    // async1 end
+    // promise2
+    // setTimeout
+
+
+    // 例3（例2改动版）
+    async function async1() {
+        console.log('async1 start');
+        await async2();
+        console.log('async1 end');
+    }
+    async function async2() {
+        console.log('async2');
+        setTimeout(function() {
+            console.log('async2 Timeout');
+        }, 0);
+    }
+    console.log('script start');
+    setTimeout(function() {
+        console.log('setTimeout');
+    }, 0);
+    async1();
+    new Promise(function (resolve) {
+        console.log('promise1');
+        setTimeout(resolve, 0);
+        // resolve();
+    }).then(function() {
+        console.log('promise2');
+    })
+    console.log('script end');
+    // 结果：
+    // script start     主线程
+    // async1 start     主线程
+    // async2           主线程
+    // promise1         主线程
+    // script end       主线程
+    // async1 end       微任务1
+    // setTimeout       宏任务2
+    // async2 Timeout   宏任务3
+    // promise2         宏任务4
+
+</script>
+
+</html>
