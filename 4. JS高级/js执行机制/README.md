@@ -87,48 +87,48 @@ Macrotasks、Microtasks执行机制：
 
 
 ```js
-console.log('1');
-    setTimeout(function () {
+    console.log('1');
+    setTimeout(() => {
         console.log('2');
         Promise.resolve().then(() => {
             console.log('3');
         })
-        new Promise(function (resolve) {
+        new Promise((resolve) => {
             console.log('4');
             resolve();
-        }).then(function () {
+        }).then(() => {
             console.log('5')
         })
     })
     Promise.resolve().then(() => {
         console.log('6');
     })
-    new Promise(function (resolve) {
+    new Promise((resolve) => {
         console.log('7');
         resolve();
-    }).then(function () {
+    }).then(() => {
         console.log('8')
     })
-    setTimeout(function () {
+    setTimeout(() => {
         console.log('9');
         Promise.resolve().then(() => {
             console.log('10');
         })
-        new Promise(function (resolve) {
+        new Promise((resolve) => {
             console.log('11');
             resolve();
-        }).then(function () {
+        }).then(() => {
             console.log('12')
         })
     })
 
     // 结果：
-    // 1 7 宏
-    // 6 8 微
-    // 2 4 宏
-    // 3 5 微
-    // 9 11 宏
-    // 10 12 微
+    // 1 7 -----------宏
+    // 6 8 -----------微
+    // 2 4 -----------宏
+    // 3 5 -----------微
+    // 9 11 ----------宏
+    // 10 12 ---------微
 ```
 
 
